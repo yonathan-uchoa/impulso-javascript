@@ -7,49 +7,129 @@
     font-size: 14px;
 }
 
-footer .list-items{
-    display: flex;
+body{
     width: 100%;
-    margin: auto;
-    text-align: center;
-}
-
-footer li{
+    min-height: 375px;
+    min-width: 375px;
+    height: 100vh;
+    background-color: rgb(243, 243, 243);
     display: flex;
-    padding: 5px 5px
-}
-footer ul{
     justify-content: center;
-    display: flex;
-}
-
-
-footer a{
-    text-decoration: none;
-    color: rgb(56, 56, 56);
+    flex-wrap: wrap;
 }
 
 .instagram-wrapper{
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: start;
-    width: 60%;
-    height: 100vh;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: auto;
+    width: 100%;
 }
+
+.instagram-continue{
+    display:flex;
+    align-items: center;
+    min-height: 34rem;
+}
+
+.group{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 1.3rem 0;
+    border: 1px solid lightgray;
+}
+
+.group:nth-child(1){
+    width: 350px;
+    height: 350px;
+}
+
 
 .instagram-phone{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
 }
 
 .instagram-phone img{
-    height: 60rem;
+    height: 45rem;
+    object-fit: cover;
+    width: 300px;
+    height: 600px;
+}
+.instagram-phone img:nth-child(1){
+    z-index:-1;
+    position: absolute;
+}
+.instagram-phone img:nth-child(2){
+    z-index: -1;
+    position: relative;
+    left: 10rem;
+    top: 2rem;
+    margin-right: 150px;
 }
 
 .instagram-logo{
     display: flex;
-    width: 35%;
+    height: 3rem;    
+}
+
+.profile-photo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+
+}
+.profile-photo img{
+    height: 6rem; 
+}
+
+.instagram-login{
+    background-color: #0095f6;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.trocar-conta{
+    color: #0095f6;
+}
+
+footer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+}
+
+footer .list-items{
+    display: flex;
+}
+
+footer li{
+    display: flex;
+    padding: 5px 5px;
     
+}
+footer ul{
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+footer a{
+    text-decoration: none;
+    color: rgb(142, 142, 142);
+    font-size: 12px;
+}
+
+@media (max-width: 799px){
+    .instagram-phone{
+        display: none;
+    }
 }
