@@ -24,15 +24,22 @@ let password;
 let sessionId;
 let listId = '7101979';
 let loginButton = document.getElementById('login-button');
+let logoutButton = document.getElementById('logout-button');
 let searchButton = document.getElementById('search-button');
 let searchContainer = document.getElementById('search-container');
+let loginContainer = document.getElementById('login-container');
+let logoutContainer = document.getElementById('logout-container');
 if (loginButton) {
     loginButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
-        console.log('testando o botao!');
         yield criarRequestToken();
         yield logar();
         yield criarSessao();
     }));
+}
+if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+        fecharSessao();
+    });
 }
 searchButton === null || searchButton === void 0 ? void 0 : searchButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
     let lista = document.getElementById("lista");
@@ -43,10 +50,19 @@ searchButton === null || searchButton === void 0 ? void 0 : searchButton.addEven
     let listaDeFilmes = yield procurarFilme(query);
     let ul = document.createElement('ul');
     ul.id = "lista";
+    ul.style.display = 'wrap';
     if (listaDeFilmes === null || listaDeFilmes === void 0 ? void 0 : listaDeFilmes.results) {
         for (const item of listaDeFilmes.results) {
             let li = document.createElement('li');
+            let adicionar = document.createElement('button');
+            adicionar.innerHTML = 'Adicionar';
+            adicionar.addEventListener('click', () => {
+                adicionar.style.display = 'none';
+            });
+            li.style.display = 'flex';
+            li.style.margin = '5px';
             li.appendChild(document.createTextNode(item.original_title));
+            li.appendChild(adicionar);
             ul.appendChild(li);
             console.log(listaDeFilmes);
             searchContainer.appendChild(ul);
@@ -108,7 +124,6 @@ class HttpClient {
 function procurarFilme(query) {
     return __awaiter(this, void 0, void 0, function* () {
         query = encodeURI(query);
-        console.log(query);
         const result = yield HttpClient.get({
             url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`,
             method: "GET"
@@ -128,18 +143,15 @@ function adicionarFilme(filmeId) {
 }
 function criarRequestToken() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('requisitando!');
         let result = yield HttpClient.get({
             url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`,
             method: "GET"
         });
         requestToken = result.request_token;
-        console.log(requestToken);
     });
 }
 function logar() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Logar!');
         let result = yield HttpClient.get({
             url: `https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${apiKey}`,
             method: "POST",
@@ -154,12 +166,24 @@ function logar() {
 }
 function criarSessao() {
     return __awaiter(this, void 0, void 0, function* () {
-        let result = yield HttpClient.get({
-            url: `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}&request_token=${requestToken}`,
-            method: "GET"
-        });
-        sessionId = result.session_id;
+        try {
+            let result = yield HttpClient.get({
+                url: `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}&request_token=${requestToken}`,
+                method: "GET"
+            });
+            console.log(result);
+            sessionId = result.session_id;
+            loginContainer.style.display = 'none';
+            logoutContainer.style.display = 'flex';
+        }
+        catch (e) {
+            console.log(e);
+        }
     });
+}
+function fecharSessao() {
+    logoutContainer.style.display = 'none';
+    loginContainer.style.display = 'flex';
 }
 function criarLista(nomeDaLista, descricao) {
     return __awaiter(this, void 0, void 0, function* () {
